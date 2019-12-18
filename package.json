@@ -1,0 +1,27 @@
+{
+  "name": "online-compiler",
+  "version": "1.0.0",
+  "description": "This is a online compiler code",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ivishalydv/Online-compiler.git"
+  },
+  "author": "Vishal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ivishalydv/Online-compiler/issues"
+  },
+  "homepage": "https://github.com/ivishalydv/Online-compiler#readme"
+}
