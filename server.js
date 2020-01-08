@@ -1,7 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-
+const https = require('https');
+const fs = require('fs');
 
 
 
@@ -47,6 +48,10 @@ request({
 app.get('/', (req, res) => {
     res.sendFile("./public/textEditor.html", { root: __dirname })
 })
+
+
+// ===========================================================
+//result route
 
 
 
@@ -134,7 +139,12 @@ function result(endpoint, response_id, accessToken) {
             if (response.statusCode === 200) {
                 console.log(JSON.parse(response.body)); // submission data in JSON
                 var output = JSON.parse(response.body);
-                console.log(output.result.streams.output.uri);
+                const file = output.result.streams.output.uri;
+                console.log(file);
+                const myFile = fs.createWriteStream('temp.txt');
+                const request = https.get(file, function (response) {
+                    response.pipe(myFile);
+                })
             } else {
                 if (response.statusCode === 401) {
                     console.log('Invalid access token');
