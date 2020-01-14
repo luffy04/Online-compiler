@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const https = require('https');
 const fs = require('fs');
-
+const { exec } = require('child_process');
 
 
 app.use(bodyParser.json({ limit: '10mb', extended: true }))
@@ -11,9 +11,8 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
-// ============================================>
-//Sphere ide route  - TO CHECK WORKING STATUS
-
+// ============================================ >
+// Sphere ide route  - TO CHECK WORKING STATUS
 
 var request = require('request');
 
@@ -76,9 +75,24 @@ app.post('/run', function (req, res) {
     };
     // console.log(JSON.parse(req.body));
     console.log(req.body.code);
+    fs.writeFile('data.cpp', req.body.code, (err) => {
+        if (err) throw err;
 
-    submission(submissionData, endpoint, accessToken, res);
+        console.log("Saved!!");
+    })
 
+    exec('make data', (err, stdout, stderr) => {
+        if (err) {
+            return;
+        }
+        exec('./data', (err, stdout, stderr) => {
+            console.log(stdout);
+            console.log(stderr);
+        })
+    })
+
+
+    //submission(submissionData, endpoint, accessToken, res);
 })
 
 
