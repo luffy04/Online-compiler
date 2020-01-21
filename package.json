@@ -4,6 +4,7 @@
   "description": "This is a online compiler code",
   "main": "server.js",
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "express-session": "^1.17.0",

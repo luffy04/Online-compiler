@@ -58,18 +58,22 @@
                 </li>
             </ul>
             <ul class="nav justify-content-end">
+                <%if(!currentUser){%>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" style="margin-right:10px" href="login">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" href="/register">Sign Up</a>
                 </li>
+                <%}else{%>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" href="/logout">Sign Out</a>
                 </li>
+                <%}%>
             </ul>
         </div>
     </nav>
+    
     <div id="buttons">
         <select class="btn btn-primary dropdown-toggle" onchange="language(this)">
             <option>java</option>
@@ -80,6 +84,7 @@
             <option>eclipse</option>
         </select>
         <button class="btn btn-success" onclick="run()">run</button>
+        <button class="btn btn-success" onclick="answer()">Get Answer</button>
     </div>
     <div id="editor">#include&lt;iostream&gt;
         using namespace std;
@@ -113,6 +118,16 @@
                 success: function (data) {
                     console.log(data);
                 }
+            })
+        }
+        function answer() {
+            $.ajax({
+                url: '/result',
+                method: 'GET',
+                success: function () {
+                    console.log("Success");
+                }
+
             })
         }
     </script>

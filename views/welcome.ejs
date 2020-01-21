@@ -46,15 +46,21 @@
                 </li>
             </ul>
             <ul class="nav justify-content-end">
+                <%if(!currentUser){%>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" style="margin-right:10px" href="login">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" href="/register">Sign Up</a>
                 </li>
+                <%}else{%>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" href="/logout">Sign Out</a>
                 </li>
+                <%}%>
             </ul>
         </div>
     </nav>
+    <div>
+        <%data%>
+        </div>

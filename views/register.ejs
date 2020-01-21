@@ -48,18 +48,33 @@
                 </li>
             </ul>
             <ul class="nav justify-content-end">
+                <%if(!currentUser){%>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" style="margin-right:10px" href="login">Login</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" href="/register">Sign Up</a>
                 </li>
+                <%}else{%>
                 <li class="nav-item">
                     <a class="nav-link btn btn-light" href="/logout">Sign Out</a>
                 </li>
+                <%}%>
             </ul>
         </div>
+        
     </nav>
+    <div class="container">
+        <%if(error && error.length>0){%>
+                <div class="alert alert-danger" style="margin-top:10px" role="alert">
+                    <%=error%>
+                </div>
+                <%}%>
+          <%if(success && success.length>0){%>
+                <div class="alert alert-success" style="margin-top:10px" role="alert">
+                    <%=success%>
+                </div>
+                <%}%> 
     <div class="limiter">
         <div class="container-login100">
             <div class="wrap-login100">

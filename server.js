@@ -9,6 +9,7 @@ var User = require("./models/user");
 var passport = require('passport');
 var LocalStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
+var flash = require('connect-flash');
 
 mongoose.connect("mongodb://localhost/CompileIt");
 
@@ -24,6 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
+app.use(flash());
 
 
 
@@ -31,6 +33,14 @@ passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    next();
+});
 
 //==================================================>
 
@@ -71,6 +81,12 @@ app.post('/register', (req, res) => {
         }
     })
 })
+
+app.get('/logout', (req, res) => {
+    req.logout();
+    req.flash("Success", "Logged you out successfully");
+    res.redirect("/");
+})
 // ===============================================>
 //Route to get the code written in textEditor.html file
 
@@ -89,7 +105,6 @@ app.post('/run', (req, res) => {
 
         console.log("Saved!!");
     })
-    res.redirect('/run');
     exec('make data', (err, stdout, stderr) => {
         if (err) {
             console.log(stderr);
@@ -101,15 +116,16 @@ app.post('/run', (req, res) => {
             })
         })
     })
-
 })
 
 // ==================================================> Result route
 
 app.get('/result', (req, res) => {
-
+    fs.readFile('output.txt', (err, data) => {
+        console.log(data);
+    })
+    res.render('welcome', { data: data });
 })
-
 
 
 //==========================================> Listening port
@@ -118,3 +134,15 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
+
+
+//Middleware
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        req.flash("error", "Please log in first");
+        res.redirect("/login");
+    }
+};
