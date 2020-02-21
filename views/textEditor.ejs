@@ -89,15 +89,23 @@
     <div id="editor">#include&lt;iostream&gt;
         using namespace std;
         int main(){
-        cout&lt;&lt;"HIi";
+        int n=5;
+        for(int i=0;i&lt;n;i++){
+        	for(int j=0;j&lt;=i;j++){
+        		cout&lt;&lt;"*";
+        	}
+        	cout&lt;&lt;endl;
+    	}
         return 0;
         }
     </div>
+    <pre id="pre"></pre>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
     </script>
     <script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var editor = ace.edit("editor");
+        var pre = $("#pre"); 
         editor.setTheme("ace/theme/terminal");
         editor.session.setMode("ace/mode/java");
 
@@ -116,7 +124,7 @@
                 method: 'POST',
                 data: { "code": myCode },
                 success: function (data) {
-                    console.log(data);
+                    pre.html(data);
                 }
             })
         }

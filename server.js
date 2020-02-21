@@ -113,6 +113,9 @@ app.post('/run', (req, res) => {
         exec('./data', (err, stdout, stderr) => {
             fs.writeFile('output.txt', stdout, (err) => {
                 if (err) throw err;
+		else{
+			res.send(stdout);
+		}
             })
         })
     })
@@ -122,9 +125,10 @@ app.post('/run', (req, res) => {
 
 app.get('/result', (req, res) => {
     fs.readFile('output.txt', (err, data) => {
-        console.log(data);
-    })
-    res.render('welcome', { data: data });
+        console.log(data.toString());
+	res.render('welcome', { data: data.toString() });    
+})
+    
 })
 
 
